@@ -36,7 +36,7 @@ class LogService  @Inject()() extends Logging{
   def saveFile(mc: Option[MultipartItem],typ:String): Future[Option[String]]= {
     mc match {
       case Some(m) =>
-        val path=getFilePath(typ,m.filename.getOrElse("tmep.log"))
+        val path=getFilePath(typ,m.filename.getOrElse("temp.log"))
         val f=new File(path)
         FileUtils.writeByteArrayToFile(f,m.data)
         logger.debug("save file:"+path)

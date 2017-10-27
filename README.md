@@ -1,9 +1,9 @@
 #log-server 日志服务器
    
 ##打包插件[sbt-native-packager](https://github.com/sbt/sbt-native-packager)   
-##finagle-redis 
-##finatra
-##数据库orm [quill](http://getquill.io/)
+##[finagle-redis](https://github.com/twitter/finagle/tree/develop/finagle-redis)
+##[finatra](https://twitter.github.io/finatra/)
+##数据库 [quill](http://getquill.io/)
 
    
 ###sbt-native-packager
@@ -115,5 +115,105 @@ Examples
     
 ```
     
+###Quill
+
+数据库操作插件
+
+通过TwitterModule来注册Quill组件
+``` 
+package com.asu.log.modules
+
+import com.google.inject.{Provides, Singleton}
+import com.twitter.inject.TwitterModule
+import io.getquill.{FinagleMysqlContext, SnakeCase}
+
+class QuillContext extends FinagleMysqlContext(SnakeCase,"ctx")
+
+/**
+  * Created by hjun  chenhj on 2017/10/26.
+  */
+object QuillContextModule extends TwitterModule{
+
+   @Singleton
+   @Provides
+   def providesQuillDbContext:QuillContext=new QuillContext
+}
+
+```
+
+在APP中注册模块App.scala
+``` 
+     override protected def modules: Seq[Module] = Seq(QuillContextModule)
+```
+
+创建一个case 对象
+``` 
+ import java.util.Date
+import com.asu.log.helpers.ID
+
+/**
+  * Created by hjun  chenhj on 2017/10/26.
+  */
+case class User(id:String,token:String,ip:String,createDate:Date)
+object User{
+  def apply(token: String,ip:String): User = new User(ID.gen, token,ip,new Date())
+}
+```
+
+通过dao可以来操作User表
+
+``` 
+package com.asu.log.models
+
+import javax.inject.Singleton
+
+import com.asu.log.modules.QuillContext
+import com.google.inject.Inject
+import com.twitter.util.Future
+
+/**
+  * Created by hjun  chenhj on 2017/10/26.
+  */
+@Singleton
+class UserDao @Inject()(ctx:QuillContext) {
+
+  import ctx._
+
+  def find(userId: String): Future[User] = {
+    run(quote(query[User]).filter(_.id == lift(userId))).map(_.head)
+  }
+
+  def insert(user: User) = {
+  //run(quote(query[User]).insert(_.id->lift(user.id),_.token->lift(user.token)).returning(_.id))
+    run(quote(liftQuery(List(user))).foreach(e => query[User].insert(e)))
+    user
+}
+
+  def deleteAll:Future[Unit]=
+    run(quote(query[User].delete)).unit
+
+  def getUserByToken(token:String):Future[User]=
+    run(quote(query[User].filter(_.token==lift(token)))).map(_.head)
+
+}
+   
+```
+
+****注意:
+  插入数据,如果使用自增
+  ```$xslt
+    run(quote(query[User]).insert(_.id->lift(user.id),_.token->lift(user.token)).returning(_.id))
+    run(quote(query[User]).insert(user).returning(_.id))
     
+    上面两种方式,生成的sql 
+    INSERT INTO user (token,ip,create_date) VALUES (?, ?, ?)
+    不会加入id主键在sql语句中,在保存时也不会带上主键id
     
+    如果在插入时需要使用自己的主键
+    run(quote(liftQuery(List(user))).foreach(e => query[User].insert(e)))
+    生成的语句才会生成带id的主键
+    INSERT INTO user (id,token,ip,create_date) VALUES (?, ?, ?, ?)
+
+        
+```
+  
