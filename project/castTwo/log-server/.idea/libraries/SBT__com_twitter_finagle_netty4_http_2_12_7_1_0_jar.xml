@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: com.twitter:finagle-netty4-http_2.12:7.1.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.twitter/finagle-netty4-http_2.12/jars/finagle-netty4-http_2.12-7.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.twitter/finagle-netty4-http_2.12/srcs/finagle-netty4-http_2.12-7.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

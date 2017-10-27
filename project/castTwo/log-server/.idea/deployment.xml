@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="cc-app">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="ftp1">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="place">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="yunxian">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="yunxina-html">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="yuxian-web">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/project" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
