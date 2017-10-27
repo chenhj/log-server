@@ -26,18 +26,22 @@ class LogService  @Inject()() extends Logging{
       case _=>"otherlog"
     }
 
+  private def getFilePath(typ:String,fname:String):String={
+    //存放路径/业务类型/年月/日期/文件名称
+    val d= DateTime.now()
+    val datepath=d.getYear +""+ d.monthOfYear().get() +File.separator + DateFormatUtils.format(new Date(),"yyyyMMdd")
+     API.getBasePath +File.separator + getBuseType(typ) +File.separator + datepath+File.separator+fname
+  }
+
 
   def saveFile(mc: Option[MultipartItem],typ:String): Future[Option[String]]= {
     mc match {
       case Some(m) =>
-        //存放路径/业务类型/年月/日期/文件名称
-         val d= DateTime.now()
-         val datepath=d.getYear +""+ d.monthOfYear().get() +File.separator + DateFormatUtils.format(new Date(),"yyyyMMdd")
-         val path=API.getBasePath +File.separator + getBuseType(typ) +File.separator + datepath+File.separator+m.filename.getOrElse("tmep.log")
-         val f=new File(path)
-            FileUtils.writeByteArrayToFile(f,m.data)
+        val path=getFilePath(typ,m.filename.getOrElse("tmep.log"))
+        val f=new File(path)
+        FileUtils.writeByteArrayToFile(f,m.data)
         logger.debug("save file:"+path)
-           Future.value(Some("save ok"))
+        Future.value(Some("save ok"))
       case None =>Future.None
     }
   }
