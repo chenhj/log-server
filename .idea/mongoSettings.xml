@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MongoConfiguration">
+    <option name="serverConfigurations">
+      <list>
+        <ServerConfiguration>
+          <option name="label" value="mongo" />
+          <option name="serverUrls">
+            <list>
+              <option value="123.57.64.142:27020" />
+            </list>
+          </option>
+          <option name="userDatabase" value="castone" />
+        </ServerConfiguration>
+      </list>
+    </option>
+  </component>
+</project>
