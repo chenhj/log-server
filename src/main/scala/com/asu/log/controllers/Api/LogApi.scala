@@ -19,10 +19,10 @@ import scala.util.{Failure, Success, Try}
 class LogApi @Inject()(logService: LogService) extends ResponseController with LogTrait {
 
    post(API.getBaseUrl ++ "/cast/auth/upload"){ request:Request =>
-    val mc=   RequestUtils.multiParams(request).get("logfile")
+    val logfile=   RequestUtils.multiParams(request).get("logfile")
       (for{
          typ <-Try(getBusyType(request).get)
-         result<-Try(logService.saveFile(mc,typ))
+         result<-Try(logService.saveFile(logfile,typ))
       } yield result ) match {
          case Failure(error) =>{
            logger.error("error:" + error.getMessage)
